@@ -12,6 +12,5 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
-
   config:
     import: "optional:configserver:http://localhost:8088"
