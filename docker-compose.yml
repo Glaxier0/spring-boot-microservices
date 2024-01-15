@@ -8,7 +8,6 @@ services:
     ports:
       - "9411:9411"
   postgres:
-    container_name: postgres_container
     image: postgres:15-alpine
     environment:
       POSTGRES_USER: postgres
@@ -19,6 +18,22 @@ services:
     ports:
       - "5432:5432"
     restart: unless-stopped
+  keycloak:
+    image: quay.io/keycloak/keycloak:23.0
+    command:
+      - start-dev
+    environment:
+      KEYCLOAK_ADMIN: glaxier
+      KEYCLOAK_ADMIN_PASSWORD: glaxierpassword
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/keycloak
+      KC_DB_USERNAME: glaxier
+      KC_DB_SCHEMA: public
+      KC_DB_PASSWORD: glaxierpassword
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
 
 volumes:
   postgres:

@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: auth-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/e_commerce
+    username: glaxier
+    password: glaxierpassword
+  flyway:
+    url: jdbc:postgresql://localhost:5432/e_commerce
+    user: glaxier
+    password: glaxierpassword
+  jpa:
+    hibernate:
+      ddl-auto: update
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id:
+  config:
+    import: "optional:configserver:http://localhost:8088"
+
+keycloak:
+  auth-server-url: http://localhost:8080/realms/e_commerce/protocol/openid-connect/token
+  realm: e_commerce
+  resource: e_commerce-client
+  credentials:
+    secret: fb2JvrrFnLgV56Txu0Qx43XQJynbbmHS
+  public-client: false
