@@ -14,17 +14,12 @@ spring:
       ddl-auto: update
   security:
     oauth2:
-      client:
-        registration:
-          keycloak:
-            client-id:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/e_commerce
   config:
     import: "optional:configserver:http://localhost:8088"
 
-keycloak:
-  auth-server-url: http://localhost:8080/realms/e_commerce/protocol/openid-connect/token
-  realm: e_commerce
-  resource: e_commerce-client
-  credentials:
-    secret: fb2JvrrFnLgV56Txu0Qx43XQJynbbmHS
-  public-client: false
+issuer: http://localhost:8080/realms/e_commerce
+client-id: e_commerce-client
+client-secret: QrOgjWXAqrFnVe7b5kIBYECQ3raOxdjf

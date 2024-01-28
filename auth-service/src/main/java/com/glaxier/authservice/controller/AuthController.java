@@ -1,9 +1,13 @@
 package com.glaxier.authservice.controller;
 
+import com.glaxier.authservice.dto.request.LoginRequest;
+import com.glaxier.authservice.dto.response.LoginResponse;
 import com.glaxier.authservice.service.KeycloakAdminClient;
+import org.keycloak.OAuth2Constants;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,22 +24,37 @@ public class AuthController {
 //    }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
         Keycloak keycloak = KeycloakBuilder.builder()
-                .serverUrl("http://localhost:8080/auth")
+                .serverUrl("http://localhost:8080")
                 .realm("e_commerce")
                 .clientId("e_commerce-client")
-                .clientSecret("fb2JvrrFnLgV56Txu0Qx43XQJynbbmHS")
-                .username(username)
-                .password(password)
-                .grantType("password")
+                .clientSecret("QrOgjWXAqrFnVe7b5kIBYECQ3raOxdjf")
+                .grantType(OAuth2Constants.PASSWORD)
+                .username(loginRequest.getUsername())
+                .password(loginRequest.getPassword())
                 .build();
 
-        // Obtain the token
         var response = keycloak.tokenManager().getAccessToken();
-        String accessToken = response.getToken();
+        var loginResponse = new LoginResponse(loginRequest.getUsername(), response.getToken(), response.getRefreshToken());
 
-        // Return the token or handle as needed
-        return ResponseEntity.ok(accessToken);
+        return ResponseEntity.ok(loginResponse);
+    }
+
+    @GetMapping("/protected")
+    public ResponseEntity<String> getProtected() {
+        return ResponseEntity.ok("User is authenticated.");
+    }
+
+    @GetMapping("/restricted-user")
+    @PreAuthorize("hasAuthority('user')")
+    public ResponseEntity<String> isUser() {
+        return ResponseEntity.ok("User authenticated as a user.");
+    }
+
+    @GetMapping("/restricted-admin")
+    @PreAuthorize("hasAuthority('admin')")
+    public ResponseEntity<String> isAdmin() {
+        return ResponseEntity.ok("User authenticated as a admin.");
     }
 }
