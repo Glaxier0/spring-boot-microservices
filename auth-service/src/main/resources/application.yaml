@@ -20,6 +20,17 @@ spring:
   config:
     import: "optional:configserver:http://localhost:8088"
 
-issuer: http://localhost:8080/realms/e_commerce
-client-id: e_commerce-client
-client-secret: QrOgjWXAqrFnVe7b5kIBYECQ3raOxdjf
+keycloak:
+  server:
+    url: http://localhost:8080
+  realm: e_commerce
+  client:
+    id: e_commerce-client
+    secret: QrOgjWXAqrFnVe7b5kIBYECQ3raOxdjf
+  admin:
+    user: glaxier
+    password: glaxierpassword
+    client:
+      id: admin-cli
+      secret: qPgpQNsFQ8IJ1zCfRNHFftxa33jsG3Tt
+    realm: master

@@ -55,7 +55,7 @@ public class WebSecurityConfig {
         // @formatter:off
         http.authorizeHttpRequests(accessManagement -> accessManagement
                 .requestMatchers("/actuator/health/readiness", "/actuator/health/liveness",
-                        "/v3/api-docs/**", "/auth/login")
+                        "/v3/api-docs/**", "/auth/login", "auth/register")
                 .permitAll()
                 .anyRequest().authenticated()
         );

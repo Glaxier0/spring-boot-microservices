@@ -1,4 +1,4 @@
-package com.glaxier.authservice.dto.response;
+package com.glaxier.authservice.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class LoginResponse {
-    private String accessToken;
-    private String refreshToken;
+public class RegistrationRequest {
+    private String username;
+    private String password;
 }
